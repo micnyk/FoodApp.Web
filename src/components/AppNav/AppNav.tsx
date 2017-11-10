@@ -1,15 +1,17 @@
 import * as React from "react";
+import { Link, withRouter } from "react-router-dom";
+import { History } from "history";
 import {
   Navbar,
   NavbarBrand,
   NavbarToggler,
   Collapse,
   Nav,
-  NavItem,
-  NavLink
+  NavItem
 } from "reactstrap";
 
 interface MenuProps extends React.Props<Menu> {
+  history?: History;
   signedIn: boolean;
 }
 
@@ -27,7 +29,12 @@ class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     return (
       <Navbar color="dark" dark={true} expand="md">
-        <NavbarBrand href="#">Order Food App</NavbarBrand>
+        <NavbarBrand
+          onClick={() => this.navigateToWelcomeComponent()}
+          href="javascript:void(0)"
+        >
+          Order Food App
+        </NavbarBrand>
         <NavbarToggler onClick={() => this.toggleNavbar()} className="mr-2" />
         <Collapse isOpen={this.state.collapsed} navbar={true}>
           {this.props.signedIn ? this.signedInMenu() : this.signedOutMenu()}
@@ -40,13 +47,19 @@ class Menu extends React.Component<MenuProps, MenuState> {
     return (
       <Nav navbar={true}>
         <NavItem>
-          <NavLink href="/">Create order</NavLink>
+          <Link className="nav-link" to="/create">
+            Create order
+          </Link>
         </NavItem>
         <NavItem>
-          <NavLink href="/">My managed orders</NavLink>
+          <Link className="nav-link" to="/orders">
+            My managed orders
+          </Link>
         </NavItem>
         <NavItem>
-          <NavLink href="/">Sign Out</NavLink>
+          <Link className="nav-link" to="/signout">
+            Sign Out
+          </Link>
         </NavItem>
       </Nav>
     );
@@ -56,7 +69,9 @@ class Menu extends React.Component<MenuProps, MenuState> {
     return (
       <Nav navbar={true}>
         <NavItem>
-          <NavLink href="/">Sign in or register</NavLink>
+          <Link className="nav-link" to="/join">
+            Sign in or register
+          </Link>
         </NavItem>
       </Nav>
     );
@@ -65,6 +80,10 @@ class Menu extends React.Component<MenuProps, MenuState> {
   toggleNavbar() {
     this.setState({ collapsed: !this.state.collapsed } as MenuState);
   }
+
+  navigateToWelcomeComponent() {
+    this.props.history.push("/");
+  }
 }
 
-export default Menu;
+export default withRouter(Menu);
