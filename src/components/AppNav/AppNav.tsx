@@ -30,11 +30,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
         <NavbarBrand href="#">Order Food App</NavbarBrand>
         <NavbarToggler onClick={() => this.toggleNavbar()} className="mr-2" />
         <Collapse isOpen={this.state.collapsed} navbar={true}>
-            {this.props.signedIn ? (
-              this.signedInMenu()
-            ) : (
-              this.signedOutMenu()
-            )}
+          {this.props.signedIn ? this.signedInMenu() : this.signedOutMenu()}
         </Collapse>
       </Navbar>
     );

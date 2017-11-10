@@ -1,13 +1,13 @@
 import * as React from "react";
-import { MenuItemDto } from "../../dtos/menu/MenuItemDto";
 import { Col, Row } from "reactstrap";
-import MenuItem from "../../components/MenuItem";
+import { MenuItemDto } from "../../../dtos/menu/MenuItemDto";
+import MenuItem from "../MenuItem";
 
-interface MenuScreenState {
+interface MenuState {
   menuItems: MenuItemDto[];
 }
 
-class MenuScreen extends React.Component<{}, MenuScreenState> {
+class Menu extends React.Component<{}, MenuState> {
   constructor(props: {}) {
     super(props);
 
@@ -18,7 +18,7 @@ class MenuScreen extends React.Component<{}, MenuScreenState> {
         { id: "3", name: "Pierogi", ordersCount: 3 } as MenuItemDto,
         { id: "4", name: "Żurek", ordersCount: 2 } as MenuItemDto
       ]
-    } as MenuScreenState;
+    } as MenuState;
   }
 
   render() {
@@ -36,4 +36,4 @@ class MenuScreen extends React.Component<{}, MenuScreenState> {
   }
 }
 
-export default MenuScreen;
+export default Menu;

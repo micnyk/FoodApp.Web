@@ -1,6 +1,6 @@
 import * as React from "react";
-import { MenuItemDto } from "../../dtos/menu/MenuItemDto";
 import { Button } from "reactstrap";
+import { MenuItemDto } from "../../../dtos/menu/MenuItemDto";
 
 interface MenuItemProps extends React.Props<MenuItem> {
   menuItem: MenuItemDto;

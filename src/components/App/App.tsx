@@ -1,11 +1,13 @@
 import * as React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from "reactstrap";
 
 import "./App.css";
 
-import AppNav from "../AppNav/";
-import SignInRegisterScreen from "../../screens/signInRegister";
-import MenuScreen from "../../screens/menu";
+import AppNav from "../AppNav";
+import SignInRegister from "../SignInRegister";
+import Welcome from "../Welcome";
+import Menu from "../Menu";
 
 interface AppState {
   signedIn: boolean;
@@ -20,17 +22,19 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     return (
-      <div className="App">
-        <AppNav signedIn={this.state.signedIn} />
+      <Router>
+        <div className="App">
+          <AppNav signedIn={this.state.signedIn} />
 
-        <div className="content">
-          <Container>
-            {this.state.signedIn 
-              ? <MenuScreen /> 
-              : <SignInRegisterScreen />}
-          </Container>
+          <div className="content">
+            <Container>
+              <Route path="/" exact={true} component={Welcome} />
+              <Route path="/menu" component={Menu} />
+              <Route path="/join" component={SignInRegister} />
+            </Container>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

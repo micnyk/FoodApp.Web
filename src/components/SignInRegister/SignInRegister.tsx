@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Row, Col } from "reactstrap";
-import SignIn from "../../components/SignIn";
-import Register from "../../components/Register";
+import SignIn from "./SignIn";
+import Register from "./Register";
 
-class SignInRegisterScreen extends React.Component {
+class SignInRegister extends React.Component {
   render() {
     return (
       <Row>
@@ -18,4 +18,4 @@ class SignInRegisterScreen extends React.Component {
   }
 }
 
-export default SignInRegisterScreen;
+export default SignInRegister;
