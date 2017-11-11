@@ -8,20 +8,16 @@ import SignInRegister from "../SignInRegister";
 import Welcome from "../Welcome";
 import Menu from "../Menu";
 
-import AppState from "../../state";
-
-class App extends React.Component<{}, AppState> {
+class App extends React.Component {
   constructor(props: {}) {
     super(props);
-
-    this.state = { signedIn: false } as AppState;
   }
 
   render() {
     return (
         <Router>
           <div className="App">
-            <AppNav signedIn={this.state.signedIn} />
+            <AppNav />
 
             <div className="content">
               <Container>

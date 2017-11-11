@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import { History } from "history";
 import {
   Navbar,
@@ -10,17 +11,22 @@ import {
   NavItem
 } from "reactstrap";
 
+import { RootState } from "../..";
+
 interface MenuProps extends React.Props<Menu> {
   history?: History;
-  signedIn: boolean;
 }
 
 interface MenuState {
   collapsed?: boolean;
 }
 
-class Menu extends React.Component<MenuProps, MenuState> {
-  constructor(public props: MenuProps) {
+interface StateProps {
+  signedIn: boolean;
+}
+
+class Menu extends React.Component<MenuProps & StateProps, MenuState> {
+  constructor(public props: MenuProps & StateProps) {
     super(props);
 
     this.state = { collapsed: false } as MenuState;
@@ -86,4 +92,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 }
 
-export default withRouter(Menu);
+export default connect<StateProps>(
+  (state: RootState) => ({ signedIn: state.user.signedIn } as StateProps)
+)(withRouter(Menu));
