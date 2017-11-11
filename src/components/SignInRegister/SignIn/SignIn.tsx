@@ -37,7 +37,7 @@ export default connect<StateProps, DispatchProps>(
   (state: RootState) => ({} as StateProps),
   (dispatch: Dispatch<RootState>) => {
     return {
-      signIn: (userName: string, password: string) => dispatch(signIn(new SignInRequest(userName, password)))
+      signIn: (userName: string, password: string) => dispatch(signIn.started(new SignInRequest(userName, password)))
     };
   }
 )(SignIn);
