@@ -1,4 +1,4 @@
-import actionCreatorFactory, { isType, ActionCreator } from "typescript-fsa";
+import actionCreatorFactory, { isType } from "typescript-fsa";
 import UserState from "../state";
 import { RequestResponse, ApiActionMetadata, ApiActionMethod } from "../../api";
 import { SignInResponse, SignInRequest } from "../";
