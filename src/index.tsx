@@ -3,7 +3,12 @@ import "./index.css";
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { combineReducers, createStore, Middleware, applyMiddleware } from "redux";
+import {
+  combineReducers,
+  createStore,
+  Middleware,
+  applyMiddleware
+} from "redux";
 import { Provider } from "react-redux";
 
 import registerServiceWorker from "./registerServiceWorker";
@@ -11,12 +16,15 @@ import App from "./components/App/App";
 
 import { UserReducer, UserState } from "./services/user";
 import { ApiAction, ApiService } from "./services/api";
+import { AppState, AppReducer } from "./services/app";
 
 export interface RootState {
+  app: AppState;
   user: UserState;
 }
 
 const rootReducer = combineReducers({
+  app: AppReducer,
   user: UserReducer
 });
 

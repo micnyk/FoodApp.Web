@@ -1,7 +1,7 @@
-import { ApiAction, RequestResponse } from "./index";
+import { ApiAction, RequestResponse, ResponseResult } from "./index";
 import { Dispatch } from "redux";
-import { SignInResponse } from "../user";
 import Axios from "axios";
+import { showLoader, hideLoader } from "../app";
 
 enum ResultActionType {
   Done = "DONE",
@@ -10,34 +10,62 @@ enum ResultActionType {
 
 export class ApiService {
   private client = Axios.create({
-    baseURL: "http://get-simple.info/api/",
+    baseURL: "http://localhost:61219/api/",
     timeout: 6000
   });
 
   execute<S>(action: ApiAction, next: Dispatch<S>) {
     console.log("executing api call", action);
 
+    next(showLoader());
+
     this.client
       .request({
         method: action.meta.method,
-        url: action.meta.url
+        url: action.meta.url,
+        data: action.payload
       })
       .then(response => {
-        console.log(response);
+        next(hideLoader());
 
-        const doneAction = {
-          type: this.getResultActionType(action, ResultActionType.Done),
-          payload: {
+        const result = response.data as RequestResponse<{ errors?: {} }>;
+
+        if (result != null && result.responseResult === ResponseResult.Ok && result.data.errors == null) {
+
+          const doneAction = action.meta.actionCreator.done({
             params: action.payload,
-            result: {
-              data: response.data
-            } as RequestResponse<SignInResponse>
-          }
-        } as ApiAction;
+            result: response.data
+          });
+          next(doneAction);
 
-        next(doneAction);
+        } else if (result.data.errors != null || result.responseResult === ResponseResult.ModelNotValid) {
+          const errors = result.data.errors || result.data;
+
+          const failedAction = action.meta.actionCreator.failed({
+            params: action.payload,
+            error: {
+              validation: result.data != null,
+              errors: errors
+            }
+          });
+
+          next(failedAction);
+
+        } else {
+
+          const failedAction = action.meta.actionCreator.failed({
+            params: action.payload,
+            error: {
+              errors: [response.statusText]
+            }
+          });
+
+          next(failedAction);
+        }
       })
       .catch(error => {
+        next(hideLoader());
+
         console.log(error);
 
         const errorAction = {

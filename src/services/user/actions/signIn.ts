@@ -7,17 +7,19 @@ import { Action } from "redux";
 const actionCreator = actionCreatorFactory();
 
 export function signInHandler(state: UserState, action: Action): UserState {
-    if (isType(action, signIn.done)) {
-        console.log("result from server", action.payload.result);
+  if (isType(action, signIn.done)) {
+    console.log("result from server", action.payload.result);
 
-        const response = action.payload.result.data;
+    const response = action.payload.result.data;
 
-        return { ...state, signedIn: response.signedIn };
-    }
+    return { ...state, signedIn: response.signedIn };
+  }
 
-    return { ...state };
+  return { ...state };
 }
 
-export const signIn = actionCreator.async<SignInRequest, RequestResponse<SignInResponse>>(
-    "USER_SIGNIN",
-     { url: "start", method:  ApiActionMethod.Get } as ApiActionMetadata);
+export const signIn = actionCreator.async<SignInRequest, RequestResponse<SignInResponse>>
+("USER_SIGNIN", {
+  url: "user/signIn",
+  method: ApiActionMethod.Post
+} as ApiActionMetadata);

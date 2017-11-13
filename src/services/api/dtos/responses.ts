@@ -1,11 +1,11 @@
-export enum RequestResult {
+export enum ResponseResult {
     Ok = 1,
     Error,
     ModelNotValid
 }
 
 export class RequestResponse<TResponse> {
-    result: RequestResult;
+    responseResult: ResponseResult;
     data: TResponse;
     messages: Array<string>;
 }

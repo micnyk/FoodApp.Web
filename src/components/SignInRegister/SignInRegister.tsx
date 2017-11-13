@@ -11,7 +11,7 @@ class SignInRegister extends React.Component {
           <SignIn />
         </Col>
         <Col xs="12" md="6" className="mb-5">
-          <Register register={(userName, email, password) => { console.log(`${userName} ${email} ${password}`); }} />
+          <Register />
         </Col>
       </Row>
     );

@@ -4,3 +4,10 @@ export class SignInResponse {
         public userName: string
     ) { }
 }
+
+export class RegisterResult {
+    constructor(
+        public id: string,
+        public userName: string
+    ) { }
+}
