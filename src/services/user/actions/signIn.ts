@@ -9,7 +9,10 @@ const actionCreator = actionCreatorFactory();
 export function signInHandler(state: UserState, action: Action): UserState {
     if (isType(action, signIn.done)) {
         console.log("result from server", action.payload.result);
-        return { ...state };
+
+        const response = action.payload.result.data;
+
+        return { ...state, signedIn: response.signedIn };
     }
 
     return { ...state };
@@ -17,4 +20,4 @@ export function signInHandler(state: UserState, action: Action): UserState {
 
 export const signIn = actionCreator.async<SignInRequest, RequestResponse<SignInResponse>>(
     "USER_SIGNIN",
-     { url: "http://get-simple.info/api/start/", method:  ApiActionMethod.Get } as ApiActionMetadata);
+     { url: "start", method:  ApiActionMethod.Get } as ApiActionMetadata);
