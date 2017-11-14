@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
+import { Redirect } from "react-router";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
 import { RootState } from "../../..";
@@ -8,7 +9,9 @@ import { register } from "../../../services/user/actions/register";
 import { ApiErrorsProps } from "../../ApiErrors";
 import { ApiErrors } from "../../ApiErrors/ApiErrors";
 
-interface StateProps extends ApiErrorsProps { }
+interface StateProps extends ApiErrorsProps {
+  signedIn: boolean;
+}
 interface DispatchProps {
   register: (userName: string, email: string, password: string) => void;
 }
@@ -21,6 +24,8 @@ class Register extends React.Component<StateProps & DispatchProps> {
   render() {
     return (
       <Form>
+        {this.props.signedIn ? <Redirect to="/" /> : null}
+
         <ApiErrors errors={this.props.errors} />
 
         <h1 className="mb-5">Register</h1>
@@ -55,16 +60,18 @@ class Register extends React.Component<StateProps & DispatchProps> {
   }
 }
 
+function mapDispatchToProps<S> (dispatch: Dispatch<S>) {
+  return {
+    register: (userName: string, email: string, password: string) =>
+      dispatch(
+        register.started(new RegisterRequest(userName, email, password), {
+          actionCreator: register // todo: find if there's a better way
+        })
+      )
+  };
+}
+
 export default connect<StateProps, DispatchProps>(
-  (state: RootState) => ({ errors: state.user.error } as StateProps),
-  (dispatch: Dispatch<RootState>) => {
-    return {
-      register: (userName: string, email: string, password: string) =>
-        dispatch(
-          register.started(new RegisterRequest(userName, email, password), {
-            actionCreator: register
-          })
-        )
-    };
-  }
+  (state: RootState) => ({ signedIn: state.user.signedIn, errors: state.user.error } as StateProps),
+  mapDispatchToProps
 )(Register);

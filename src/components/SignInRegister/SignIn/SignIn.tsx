@@ -5,7 +5,9 @@ import { RootState } from "../../..";
 import { SignInRequest } from "../../../services/user";
 import { signIn } from "../../../services/user/actions/signIn";
 
-interface StateProps {}
+interface StateProps {
+  invalidCredentials: boolean;
+}
 interface DispatchProps {
   signIn: (userName: string, password: string) => void;
 }
@@ -33,6 +35,12 @@ class SignIn extends React.Component<StateProps & DispatchProps> {
           />
         </FormGroup>
         <FormGroup>
+          {this.props.invalidCredentials ? (
+            <div className="has-error">
+              <p>User name or password are invalid</p>
+            </div>
+          ) : null}
+
           <Button
             onClick={() => this.props.signIn(this.userName, this.password)}
           >
@@ -45,11 +53,16 @@ class SignIn extends React.Component<StateProps & DispatchProps> {
 }
 
 export default connect<StateProps, DispatchProps>(
-  (state: RootState) => ({} as StateProps),
+  (state: RootState) =>
+    ({ invalidCredentials: state.user.invalidCredentials } as StateProps),
   (dispatch: Dispatch<RootState>) => {
     return {
       signIn: (userName: string, password: string) =>
-        dispatch(signIn.started(new SignInRequest(userName, password)))
+        dispatch(
+          signIn.started(new SignInRequest(userName, password), {
+            actionCreator: signIn // todo: find if there's a better way
+          })
+        )
     };
   }
 )(SignIn);

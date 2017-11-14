@@ -22,12 +22,13 @@ export class ApiErrors extends React.Component<ApiErrorsProps> {
   }
   render() {
     const errors: Array<string> = this.parseApiErrors();
+    const singleError = (errors instanceof Array) ? null : errors as string;
 
     return (
       <div className="has-error">
-        {errors ? (
+        {errors && singleError == null ? (
           errors.map((error: string, id: number) => <span key={id}>{error} <br /></span>)
-        ) : null}
+        ) : <span>{singleError}</span>}
       </div>
     );
   }

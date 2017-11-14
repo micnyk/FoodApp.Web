@@ -18,18 +18,22 @@ import { UserReducer, UserState } from "./services/user";
 import { ApiAction, ApiService } from "./services/api";
 import { AppState, AppReducer } from "./services/app";
 
+// todo: move from this file
 export interface RootState {
   app: AppState;
   user: UserState;
 }
 
+// todo: move from this file
 const rootReducer = combineReducers({
   app: AppReducer,
   user: UserReducer
 });
 
+// todo: move from this file
 const apiService = new ApiService();
 
+// todo: move from this file
 const apiMiddleware: Middleware = api => next => action => {
   const apiAction = action as ApiAction;
 
@@ -40,6 +44,7 @@ const apiMiddleware: Middleware = api => next => action => {
   return next(action);
 };
 
+// todo: move from this file
 const store = createStore(rootReducer, applyMiddleware(apiMiddleware));
 
 ReactDOM.render(

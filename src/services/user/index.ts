@@ -1,10 +1,16 @@
 import UserState from "./state";
 import { UserReducer } from "./reducer";
-import { SignInRequest, RegisterRequest } from "./dtos/requests";
-import { SignInResponse, RegisterResult } from "./dtos/responses";
+import {
+  SignInRequest,
+  RegisterRequest,
+  SignOutRequest
+} from "./dtos/requests";
+import { SignInResult, RegisterResult, SignOutResult } from "./dtos/responses";
 
 export { UserReducer, UserState };
 
-export { SignInRequest, SignInResponse };
+export { SignInRequest, SignInResult };
 
-export {  RegisterRequest, RegisterResult };
+export { RegisterRequest, RegisterResult };
+
+export { SignOutRequest, SignOutResult };
